@@ -1,27 +1,71 @@
 .nav-main {
-    padding-top: 20px;
-    height: 100px;
-    padding-left: 50px;
-    padding-right: 50px;
+  display: flex;
+  flex-direction: row;
+  height: 100px;
+  padding: 20px 30px 0;
 }
 
 .language-selector {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .help-dropdown {
-    border-top: 1px solid #466168;
-    position: relative;
+  border-top: 1px solid #466168;
+  position: relative;
+  padding-bottom: 50px;
 }
 
 .toggle-button {
-    position: absolute;
-    margin-left: auto;
-    right: 10px;
-    top: -15px;
+  position: absolute;
+  margin-left: auto;
+  right: 30px;
+  top: -15px;
 }
 
 .drop-down-body {
-    width: 300px;
+  width: 280px;
+  margin: auto;
+}
+
+.language-selector {
+  button {
+    background: none;
+    color: #ffffff;
+    text-transform: uppercase;
+    border-radius: 5px;
+    font-weight: 500;
+  }
+}
+
+.toggle-button {
+  button {
+    background: #1B3B43;
+    color: #466168;
+    border-radius: 5px;
+    border: 1px solid #466168;
+    font-weight: 500;
+  }
+}
+
+.drop-down-body {
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.button-wrapper {
+  width: 45%;
+  button {
+    width: 100%;
+    background: none;
+    color: #ffffff;
+    text-transform: uppercase;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 15px 5px;
     margin: auto;
+  }
 }

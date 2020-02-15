@@ -3,8 +3,8 @@ import React from 'react';
 import './App.css';
 
 import Navigation from './components/Navigation/Navigation';
-import StepInfo from './components/Navigation/StepInfo/StepInfo';
-import QuestionsSection from './components/Navigation/QuestionsSection/QuestionsSection';
+import StepInfo from './components/StepInfo/StepInfo';
+import QuestionsSection from './components/QuestionsSection/QuestionsSection';
 
 function App() {
   return (
