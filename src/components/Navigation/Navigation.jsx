@@ -28,7 +28,7 @@ export default function Navigation() {
         <div className='help-dropdown'>
           <div className="toggle-button">
             {/* this button will conditinally render the buttons for call and email */}
-            <button onClick={() => dispatch(toggleVisible)}>
+            <button onClick={() => dispatch({type: 'TOGGLE_VISIBLE'})}>
               <FontAwesomeIcon icon={faQuestionCircle} />
               <span style={{ marginLeft: '3px' }}>Help</span>
             </button>
