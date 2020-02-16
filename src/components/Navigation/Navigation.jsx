@@ -1,11 +1,10 @@
 import React from 'react';
 import logo from '../../assets/footer_logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle, faPhone, faComments } from '@fortawesome/free-solid-svg-icons'
+import { faQuestionCircle, faPhone, faComments, faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons'
 
 import './Navigation.scss';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleVisible } from '../../actions';
 
 export default function Navigation() {
 
@@ -29,8 +28,15 @@ export default function Navigation() {
           <div className="toggle-button">
             {/* this button will conditinally render the buttons for call and email */}
             <button onClick={() => dispatch({type: 'TOGGLE_VISIBLE'})}>
-              <FontAwesomeIcon icon={faQuestionCircle} />
-              <span style={{ marginLeft: '3px' }}>Help</span>
+              {visible ? (
+                <FontAwesomeIcon icon={faArrowAltCircleUp}/>
+              ) : (
+                <>
+                <FontAwesomeIcon icon={faQuestionCircle} />
+                <span style={{ marginLeft: '3px' }}>Help</span>
+                </>
+              )}
+
             </button>
           </div>
           {visible ? (
