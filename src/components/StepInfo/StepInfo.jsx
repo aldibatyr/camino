@@ -5,7 +5,7 @@ export default function StepInfo(props) {
 
   const renderStepState = () => {
 
-    if (props.step == 1) {
+    if (props.step === 1) {
       return (
         <>
           <span className="counter-dash active"></span>
@@ -13,7 +13,7 @@ export default function StepInfo(props) {
           <span className="counter-dash"></span>
         </>
       )
-    } else if (props.step == 2) {
+    } else if (props.step === 2) {
       return (
         <>
           <span className="counter-dash active"></span>

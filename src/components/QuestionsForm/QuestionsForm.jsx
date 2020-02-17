@@ -6,48 +6,62 @@ import { FORM_SUBMIT, NEXT_STEP, PREVIOUS_STEP } from '../../actions';
 function QuestionsForm() {
 
   const [formState, setFormState] = useState({});
-  const [formFieldsValid, setFormFieldsValid] = useState({})
+  const [formFieldsValid, setFormFieldsValid] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    phone: false,
+    businessName: false,
+    loanAmount: false,
+    purposeOfLoan: false,
+    ownBusiness: false,
+    isBusinessOver9Months: false
+  })
   const [formValid, setFormValid] = useState(false)
   const step = useSelector(state => state.formStep);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({ type: FORM_SUBMIT, payload: formState })
-    dispatch({ type: NEXT_STEP })
+    dispatch({ type: FORM_SUBMIT, payload: formState });
+    dispatch({ type: NEXT_STEP });
   }
 
-const setTextFieldInput = (e) => {
-  if (e.target.value.length == 0) {
-    setFormFieldsValid({...formFieldsValid, [e.target.name] : false})
-  } 
-  else {
-    setFormFieldsValid({...formFieldsValid, [e.target.name] : true})
-    setFormState({...formState, [e.target.name]: e.target.value})
-  }
-}
-
-const setNumFieldInput = (e) => {
-  if (isNaN(e.target.value)) {
-    setFormFieldsValid({...formFieldsValid, [e.target.name] : false})
-  } else {
-    setFormFieldsValid({...formFieldsValid, [e.target.name] : true})
-    setFormState({...formState, [e.target.name]: e.target.value})
-  }
-}
-
-const setEmailFieldInput = (e) => {
-  const reg_ex = /\S+@\S+\.\S+/
-    if (reg_ex.test(e.target.value) != true) {
-      setFormFieldsValid({...formFieldsValid, [e.target.name] : false})
-    } else {
-      setFormFieldsValid({...formFieldsValid, [e.target.name] : true})
-      setFormState({...formState, [e.target.name]: e.target.value})
+  const validateTextFieldInput = (e) => {
+    if (e.target.value.length === 0) {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: false })
     }
-}
+    else {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
+    }
+  }
+
+  const validateNumFieldInput = (e) => {
+    if (isNaN(e.target.value)) {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: false })
+    } else {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
+    }
+  }
+
+  const validateEmailFieldInput = (e) => {
+    const reg_ex = /\S+@\S+\.\S+/
+    if (reg_ex.test(e.target.value) !== true) {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: false })
+    } else {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
+    }
+  }
+
+  const validateSelectFieldInput = (e) => {
+    if (e.target.value !== undefined) {
+
+    }
+  }
+
   return (
     <>
-      {(step == 1) ? (
+      {(step === 1) ? (
         <form className='main-form' onSubmit={(e) => handleSubmit(e)}>
           <div className="form-introduction">
             <span className='main-text'>Tell us a little bit about yourself and your business loan needs</span>
@@ -56,24 +70,34 @@ const setEmailFieldInput = (e) => {
           </div>
           <div className="input-section">
             <label htmlFor="firstName">First Name <span className="required">*</span></label>
-            <input type="text" name="firstName" id="firstName" onChange={(e) => setTextFieldInput(e)} />
+            <input type="text" name="firstName" id="firstName"
+              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
+              onBlur={(e) => validateTextFieldInput(e)} />
           </div>
           <div className="input-section">
             <label htmlFor="lastName">Last Name <span className="required">*</span></label>
-            <input type="text" name="lastName" id="lastName" onChange={(e) => setTextFieldInput(e)} />
+            <input type="text" name="lastName" id="lastName"
+              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
+              onBlur={(e) => validateTextFieldInput(e)} />
           </div>
           <div className="input-section">
             <label htmlFor="email">Best Contact Email <span className="required">*</span></label>
-            <input type="email" name="email" id="email" onChange={(e) => setEmailFieldInput(e)} />
+            <input type="email" name="email" id="email"
+              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
+              onBlur={(e) => validateEmailFieldInput(e)} />
           </div>
           <div className="input-section">
             <label htmlFor="phone">Mobile Phone Number <span className="required">*</span></label>
-            <input type="tel" name="phone" id="phone" onChange={(e) => setNumFieldInput(e)} />
+            <input type="tel" name="phone" id="phone"
+              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
+              obBlur={(e) => validateNumFieldInput(e)} />
           </div>
           <div className="input-section">
             <label htmlFor="ownBusiness">Do you own a business? <span className="required">*</span></label>
             <div className="question-answer">
-              <input type="radio" name="ownBusiness" id="ownBusiness" value={true} onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })} />
+              <input type="radio" name="ownBusiness" id="ownBusiness" value={true} 
+              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })} 
+              />
               <span>Yes</span>
             </div>
             <div className="question-answer">
@@ -83,15 +107,16 @@ const setEmailFieldInput = (e) => {
           </div>
           <div className="input-section">
             <label htmlFor="businessName">Business Name <span className="required">*</span></label>
-            <input type="text" name="businessName" id="businessName" onChange={(e) => setTextFieldInput(e)} />
+            <input type="text" name="businessName" id="businessName" onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })} />
           </div>
           <div className="input-section">
             <label htmlFor="loanAmount">Desired Loan Amount <span className="required">*</span></label>
-            <input type="number" name="loanAmount" id="loanAmount" onChange={(e) => setNumFieldInput(e)} />
+            <input type="number" name="loanAmount" id="loanAmount" onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })} />
           </div>
           <div className="input-section">
             <label htmlFor="purposeOfLoan">Purpose of Loan <span className="required">*</span></label>
-            <select name="purposeOfLoan" id="purpose" onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}>
+            <select name="purposeOfLoan" id="purpose" required onBlur={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}>
+              <option value=""></option>
               <option value="personal">Personal</option>
               <option value="growth">Growth</option>
               <option value="suit">Build Iron-Man suit</option>
