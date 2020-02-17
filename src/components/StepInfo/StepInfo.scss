@@ -1,24 +1,27 @@
 .step-info-wrapper {
-    display: flex;
-    flex-direction: row;
-    padding: 20px 30px;
-    border-bottom: 1px solid #EBEBEB;
+  display: flex;
+  flex-direction: row;
+  padding: 20px 30px;
+  border-bottom: 1px solid #ebebeb;
 }
 
 .step-counter {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .counter {
-    display: flex;
-    flex-direction:row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .counter-dash {
-    height: 3px;
-    width: 30%;
-    background-color: #32B2DB;
+  height: 3px;
+  width: 30%;
+  background-color: #ececec;
+}
+.active {
+  background-color: #32b2db;
 }
 
 // color: #808080 inactive color

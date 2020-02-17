@@ -48,5 +48,8 @@
     height: 50px;
     border-radius: 5px;
     color: #ffffff;
+    &:disabled {
+      background-color: #ececec;
+    }
   }
 }

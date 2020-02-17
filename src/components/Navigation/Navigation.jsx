@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function Navigation() {
 
-  const visible = useSelector(state => state.visible);
+  const visible = useSelector(state => state.helpVisible);
   const dispatch = useDispatch();
 
     return (

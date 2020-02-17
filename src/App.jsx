@@ -13,7 +13,6 @@ function App() {
         <Navigation/>
       </header>
       <main>
-        <StepInfo/>
         <QuestionsSection/>
       </main>
     </div>
