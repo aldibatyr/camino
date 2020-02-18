@@ -5,11 +5,18 @@ import StepInfo from '../StepInfo/StepInfo';
 import { useSelector } from 'react-redux';
 
 function QuestionsSection() {
-  const step = useSelector(state => state.formStep);
+  const currentStepNumber = useSelector(state => state.formStep.currentStep);
+
+
+
+  const currentStepInArr = useSelector(state => state.formStep.stepsInfo.filter(step => step.stepNumber === currentStepNumber));
+
+  const currentStep = currentStepInArr[0];
+
   return (
     <section className='questions-section'>
-      <StepInfo step={step}/>
-      <QuestionsForm/>
+      <StepInfo step={currentStep} />
+      <QuestionsForm step={currentStep} />
     </section>
   )
 }

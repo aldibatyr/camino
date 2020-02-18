@@ -5,6 +5,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+}
+
+html, main {
+  background-color: #F4F6F6;
+}
+
+input {
+  background-color: #F4F6F6;
 }
 
 code {

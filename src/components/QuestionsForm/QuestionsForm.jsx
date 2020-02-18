@@ -1,24 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import FormField from '../FormField/FormField';
 import './QuestionsForm.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { FORM_SUBMIT, NEXT_STEP, PREVIOUS_STEP } from '../../actions';
 
-function QuestionsForm() {
+function QuestionsForm(props) {
 
   const [formState, setFormState] = useState({});
   const [formFieldsValid, setFormFieldsValid] = useState({
-    firstName: false,
-    lastName: false,
-    email: false,
-    phone: false,
-    businessName: false,
-    loanAmount: false,
-    purposeOfLoan: false,
-    ownBusiness: false,
-    isBusinessOver9Months: false
+    firstName: null,
+    lastName: null,
+    email: null,
+    phone: null,
+    businessName: null,
+    loanAmount: null,
+    purposeOfLoan: null,
+    ownBusiness: null,
+    isBusinessOver9Months: null
   })
   const [formValid, setFormValid] = useState(false)
-  const step = useSelector(state => state.formStep);
+  const step = useSelector(state => state.formStep.currentStep);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -29,16 +32,28 @@ function QuestionsForm() {
 
   const validateTextFieldInput = (e) => {
     if (e.target.value.length === 0) {
-      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: false })
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: 'A field must not be empty' })
     }
     else {
       setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
     }
   }
 
+  const validatePhoneFieldInput = (e) => {
+    if (isNaN(e.target.value)) {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: 'A field must be numerical' })
+    } else if (e.target.value.length !== 10) {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: 'A field must not be empty and 10 numbers' })
+    } else {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
+    }
+  }
+
   const validateNumFieldInput = (e) => {
     if (isNaN(e.target.value)) {
-      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: false })
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: 'A field must be a number' })
+    } else if (e.target.value.length < 1) {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: 'A field must not be empty' })
     } else {
       setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
     }
@@ -47,125 +62,90 @@ function QuestionsForm() {
   const validateEmailFieldInput = (e) => {
     const reg_ex = /\S+@\S+\.\S+/;
     if (reg_ex.test(e.target.value) !== true) {
-      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: false })
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: 'A field must be a valid email. Example: xyz@som.com' })
     } else {
       setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
     }
   }
 
   const validateRadioFieldInput = (e) => {
+    console.log(e.target)
     setFormState({ ...formState, [e.target.name]: e.target.value })
     setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
   }
 
   const validateSelectFieldInput = (e) => {
     if (e.target.value.length !== 0) {
-      return setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true})
-    } 
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: true })
+    } else {
+      setFormFieldsValid({ ...formFieldsValid, [e.target.name]: 'You must select an option' })
+    }
   }
 
   const activateNextButton = (obj) => {
-    for (let key in obj) {
-      !obj[key] ? setFormValid(false) : setFormValid(true)
+    let array = Object.values(obj);
+    let truly = 0;
+
+    array.map(value => {
+      if (value === true) {
+        truly++;
+      }
+    })
+
+    if (truly === array.length) {
+      setFormValid(true);
     }
-    
   }
+
+  useEffect(() => {
+    activateNextButton(formFieldsValid)
+  }, [formFieldsValid])
+
 
   return (
     <>
-      {(step === 1) ? (
-        <form className='main-form' onSubmit={(e) => handleSubmit(e)} onChange={() => activateNextButton(formFieldsValid)}>
-          <div className="form-introduction">
-            <span className='main-text'>Tell us a little bit about yourself and your business loan needs</span>
-            <br />
-            <span className='required'>* required</span>
-          </div>
-          <div className="input-section">
-            <label htmlFor="firstName">First Name <span className="required">*</span></label>
-            <input type="text" name="firstName" id="firstName"
-              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
-              onBlur={(e) => validateTextFieldInput(e)} />
-          </div>
-          <div className="input-section">
-            <label htmlFor="lastName">Last Name <span className="required">*</span></label>
-            <input type="text" name="lastName" id="lastName"
-              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
-              onBlur={(e) => validateTextFieldInput(e)} />
-          </div>
-          <div className="input-section">
-            <label htmlFor="email">Best Contact Email <span className="required">*</span></label>
-            <input type="email" name="email" id="email"
-              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
-              onBlur={(e) => validateEmailFieldInput(e)} />
-          </div>
-          <div className="input-section">
-            <label htmlFor="phone">Mobile Phone Number <span className="required">*</span></label>
-            <input type="tel" name="phone" id="phone"
-              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
-              onBlur={(e) => validateNumFieldInput(e)} />
-          </div>
-          <div className="input-section">
-            <label htmlFor="ownBusiness">Do you own a business? <span className="required">*</span></label>
-            <div className="question-answer">
-              <input type="radio" name="ownBusiness" id="ownBusiness" value={true}
-                onChange={(e) => validateRadioFieldInput(e)}
-              />
-              <span>Yes</span>
-            </div>
-            <div className="question-answer">
-              <input type="radio" name="ownBusiness" id="ownBusiness" value={false}
-                onChange={(e) => validateRadioFieldInput(e)} />
-              <span>No</span>
-            </div>
-          </div>
-          <div className="input-section">
-            <label htmlFor="businessName">Business Name <span className="required">*</span></label>
-            <input type="text" name="businessName" id="businessName"
-              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })} 
-              onBlur={(e) => validateTextFieldInput(e)} />
-          </div>
-          <div className="input-section">
-            <label htmlFor="loanAmount">Desired Loan Amount <span className="required">*</span></label>
-            <input type="number" name="loanAmount" id="loanAmount" 
-              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
-              onBlur={(e) => validateNumFieldInput(e)} />
-          </div>
-          <div className="input-section">
-            <label htmlFor="purposeOfLoan">Purpose of Loan <span className="required">*</span></label>
-            <select name="purposeOfLoan" id="purpose" 
-              onChange={(e) => setFormState({ ...formState, [e.target.name]: e.target.value })}
-              onBlur={(e) => validateSelectFieldInput(e)}>
-              <option value=""></option>
-              <option value="personal">Personal</option>
-              <option value="growth">Growth</option>
-              <option value="suit">Build the Iron-Man suit</option>
-            </select>
-          </div>
-          <div className="input-section">
-            <label htmlFor="question">Have you been in business for at least 9 months? <span className="required">*</span></label>
-            <div className="question-answer">
-              <input type="radio" name="isBusinessOver9Months" id="question" value={true} onChange={(e) => validateRadioFieldInput(e)} />
-              <span>Yes</span>
-            </div>
-            <div className="question-answer">
-              <input type="radio" name="isBusinessOver9Months" id="question" value={false} onChange={(e) => validateRadioFieldInput(e)} />
-              <label htmlFor="question">No</label>
-            </div>
-          </div>
-          <div className="form-controls">
-            <button className='button' type="submit" disabled={!formValid}>
-              Next
+      <form className='main-form' onSubmit={(e) => handleSubmit(e)}>
+        <div className="form-introduction">
+          <span className='main-text'>{props.step.stepIntro}</span>
+          <br />
+          <span className='required'>* required</span>
+        </div>
+        {props.step.stepQuestions ? (
+          (
+            props.step.stepQuestions.map((question, i) => {
+              return (
+                <FormField
+                  key={i}
+                  formState={formState}
+                  setFormState={setFormState}
+                  formFieldsValid={formFieldsValid}
+                  validateTextFieldInput={validateTextFieldInput}
+                  validatePhoneFieldInput={validatePhoneFieldInput}
+                  validateNumFieldInput={validateNumFieldInput}
+                  validateEmailFieldInput={validateEmailFieldInput}
+                  validateRadioFieldInput={validateRadioFieldInput}
+                  validateSelectFieldInput={validateSelectFieldInput}
+                  question={question}
+                />
+              )
+            })
+          )
+        ): (
+          
+        )}
+
+        <div className="form-controls">
+          <button className='button' type="submit" disabled={!formValid}>
+            Next
         </button>
-          </div>
-        </form>
-      ) : (
-          <>
+        </div>
+      </form>
+      {/* <>
             Not Yet Implemented
             <button onClick={() => { dispatch({ type: PREVIOUS_STEP }) }} >
               go back
             </button>
-          </>
-        )}
+          </> */}
     </>
   )
 }
