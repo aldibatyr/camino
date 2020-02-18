@@ -1,20 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Navigation from './Navigation';
 import { createStore } from 'redux';
-import rootReducer from './reducers';
+import rootReducer from '../../reducers';
+import { Provider } from 'react-redux';
 
 const store = createStore(rootReducer)
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
+
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <Navigation />
     </Provider>
     , div);
   ReactDOM.unmountComponentAtNode(div);
 })
-
-

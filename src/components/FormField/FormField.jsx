@@ -65,7 +65,6 @@ const FormField = (props) => {
     }
   }
 
-  console.log(props.formFieldsValid[`${name}`])
   return (
     <div className="input-section">
       <label htmlFor={name}>{text} {required ? <span className="required">*</span> : <></>}</label>
