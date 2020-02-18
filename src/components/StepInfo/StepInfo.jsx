@@ -34,7 +34,8 @@ export default function StepInfo(props) {
 
   //this would need state updates about the step number
   return (
-    <div className='step-info-wrapper'>
+    props.step ? (
+      <div className='step-info-wrapper'>
       <div className="step-info">
         <span>Step {props.step.stepNumber}: <b>{props.step.stepName}</b></span>
       </div>
@@ -47,5 +48,11 @@ export default function StepInfo(props) {
         </div>
       </div>
     </div>
+    ) : (
+      <>
+        Nothing to display
+      </>
+    )
+    
   )
 }
