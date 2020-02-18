@@ -2,7 +2,7 @@ Project created by Aldiyar Batyrbekov (https://aldibacreates.now.sh)
 
 ## Live Link
 
-You can visit a live demo at https://camino-nxmxd8abx.now.sh/
+You can visit a live demo at https://camino.now.sh/
 
 ## Code
 
