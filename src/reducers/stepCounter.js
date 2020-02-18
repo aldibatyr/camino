@@ -83,13 +83,21 @@ const initialState = {
     {
       stepNumber: 3,
       stepName: 'Contact Me',
-      stepIntro: 'Great!',
+      stepIntro: 'Great to know!',
       message: {
         text: 'Here is my contact info',
         links: [
           {
-            name: 'email',
-            ''
+            link: 'mailto:aldibatyrbekov@gmail.com',
+            text: 'aldibatyrbekov@gmail.com'
+          },
+          {
+            link: 'tel:213-359-8407',
+            text: '213-359-8407'
+          },
+          {
+            link: 'https://linkedin.com/in/aldibatyr',
+            text: 'LinkedIn'
           }
         ]
       }

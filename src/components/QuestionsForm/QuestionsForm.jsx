@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import FormField from '../FormField/FormField';
 import './QuestionsForm.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { FORM_SUBMIT, NEXT_STEP, PREVIOUS_STEP } from '../../actions';
+import { FORM_SUBMIT, NEXT_STEP } from '../../actions';
 
 function QuestionsForm(props) {
 
@@ -130,22 +128,29 @@ function QuestionsForm(props) {
               )
             })
           )
-        ): (
-          
-        )}
+        ) : (
+            <div className="message">
+              <div className="text">
+                <p>{props.step.message.text}:</p>
+              </div>
+              <div className="links">
+                {props.step.message.links.map(link => <a key={link.link} href={link.link} target='_blank' rel='noopener noreferrer'>{link.text}</a>)}
+              </div>
+            </div>
+          )}
 
         <div className="form-controls">
-          <button className='button' type="submit" disabled={!formValid}>
-            Next
-        </button>
+          {step === 3 ? (
+            <>
+            </>
+          ) : (
+              <button className='button' type="submit" disabled={!formValid}>
+                Next
+              </button>
+            )}
+
         </div>
       </form>
-      {/* <>
-            Not Yet Implemented
-            <button onClick={() => { dispatch({ type: PREVIOUS_STEP }) }} >
-              go back
-            </button>
-          </> */}
     </>
   )
 }
